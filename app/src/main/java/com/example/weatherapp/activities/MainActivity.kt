@@ -74,7 +74,7 @@ class MainActivity : AppCompatActivity(), LocationListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        setupSearchBar()
+//        setupSearchBar()
 
         modelMain.clear()
         mainAdapter?.notifyDataSetChanged()
@@ -168,94 +168,94 @@ class MainActivity : AppCompatActivity(), LocationListener {
         getLatlong()
     }
 
-    private fun setupSearchBar() {
-        val searchBar = findViewById<EditText>(R.id.searchBar)
-        searchBar.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                // Implement logic to fetch and display suggestions based on entered text
-            }
-
-            override fun afterTextChanged(s: Editable?) {}
-        })
-
-        searchBar.setOnEditorActionListener { v, actionId, event ->
-            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                val cityName = searchBar.text.toString().trim()
-                if (cityName.isNotEmpty()) {
-                    fetchWeatherByCityName(cityName)
-                } else {
-                    Toast.makeText(this@MainActivity, "Please enter a city name", Toast.LENGTH_SHORT).show()
-                }
-                true
-            } else {
-                false
-            }
-        }
-    }
-
-    private fun fetchWeatherByCityName(cityName: String) {
-        mProgressBar?.show()
-
-        val connectivityManager = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        val networkInfo = connectivityManager.activeNetworkInfo
-
-        if (networkInfo != null && networkInfo.isConnected) {
-            val url = "${ApiEndpoint.BASEURL}${ApiEndpoint.CurrentWeather}q=${cityName}${ApiEndpoint.UnitsAppid}"
-
-            val jsonObjectRequest = JsonObjectRequest(
-                Request.Method.GET, url, null,
-                { response ->
-                    try {
-                        mProgressBar?.dismiss()
-                        val jsonArrayOne = response.getJSONArray("weather")
-                        val jsonObjectOne = jsonArrayOne.getJSONObject(0)
-                        val jsonObjectTwo = response.getJSONObject("main")
-                        val jsonObjectThree = response.getJSONObject("wind")
-                        val strWeather = jsonObjectOne.getString("main")
-                        val strDescWeather = jsonObjectOne.getString("description")
-                        val strWindSpeed = jsonObjectThree.getString("speed")
-                        val strHumidity = jsonObjectTwo.getString("humidity")
-                        val strName = response.getString("name")
-                        val strTemperature = jsonObjectTwo.getDouble("temp")
-
-                        // Handle weather data and update UI accordingly
-                        // For example:
-                        // tvCityName?.text = strName
-                        // tvTemperature?.text = String.format(Locale.getDefault(), "%.0f°C", strTemperature)
-
-                    } catch (e: JSONException) {
-                        mProgressBar?.dismiss()
-                        e.printStackTrace()
-                        Toast.makeText(
-                            this@MainActivity,
-                            "Failed to fetch weather data!",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    }
-                },
-                { error ->
-                    mProgressBar?.dismiss()
-                    Toast.makeText(
-                        this@MainActivity,
-                        "Error: ${error.message}",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                })
-
-            Volley.newRequestQueue(this@MainActivity).add(jsonObjectRequest)
-        } else {
-            mProgressBar?.dismiss()
-            Toast.makeText(
-                this@MainActivity,
-                "Please Turn On Internet Connection",
-                Toast.LENGTH_LONG
-            ).show()
-        }
-    }
-
-
+//    private fun setupSearchBar() {
+//        val searchBar = findViewById<EditText>(R.id.searchBar)
+//        searchBar.addTextChangedListener(object : TextWatcher {
+//            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+//
+//            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+//                // Implement logic to fetch and display suggestions based on entered text
+//            }
+//
+//            override fun afterTextChanged(s: Editable?) {}
+//        })
+//
+//        searchBar.setOnEditorActionListener { v, actionId, event ->
+//            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+//                val cityName = searchBar.text.toString().trim()
+//                if (cityName.isNotEmpty()) {
+//                    fetchWeatherByCityName(cityName)
+//                } else {
+//                    Toast.makeText(this@MainActivity, "Please enter a city name", Toast.LENGTH_SHORT).show()
+//                }
+//                true
+//            } else {
+//                false
+//            }
+//        }
+//    }
+//
+//    private fun fetchWeatherByCityName(cityName: String) {
+//        mProgressBar?.show()
+//
+//        val connectivityManager = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+//        val networkInfo = connectivityManager.activeNetworkInfo
+//
+//        if (networkInfo != null && networkInfo.isConnected) {
+//            val url = "${ApiEndpoint.BASEURL}${ApiEndpoint.CurrentWeather}q=${cityName}${ApiEndpoint.UnitsAppid}"
+//
+//            val jsonObjectRequest = JsonObjectRequest(
+//                Request.Method.GET, url, null,
+//                { response ->
+//                    try {
+//                        mProgressBar?.dismiss()
+//                        val jsonArrayOne = response.getJSONArray("weather")
+//                        val jsonObjectOne = jsonArrayOne.getJSONObject(0)
+//                        val jsonObjectTwo = response.getJSONObject("main")
+//                        val jsonObjectThree = response.getJSONObject("wind")
+//                        val strWeather = jsonObjectOne.getString("main")
+//                        val strDescWeather = jsonObjectOne.getString("description")
+//                        val strWindSpeed = jsonObjectThree.getString("speed")
+//                        val strHumidity = jsonObjectTwo.getString("humidity")
+//                        val strName = response.getString("name")
+//                        val strTemperature = jsonObjectTwo.getDouble("temp")
+//
+//                        // Handle weather data and update UI accordingly
+//                        // For example:
+//                        // tvCityName?.text = strName
+//                        // tvTemperature?.text = String.format(Locale.getDefault(), "%.0f°C", strTemperature)
+//
+//                    } catch (e: JSONException) {
+//                        mProgressBar?.dismiss()
+//                        e.printStackTrace()
+//                        Toast.makeText(
+//                            this@MainActivity,
+//                            "Failed to fetch weather data!",
+//                            Toast.LENGTH_SHORT
+//                        ).show()
+//                    }
+//                },
+//                { error ->
+//                    mProgressBar?.dismiss()
+//                    Toast.makeText(
+//                        this@MainActivity,
+//                        "Error: ${error.message}",
+//                        Toast.LENGTH_SHORT
+//                    ).show()
+//                })
+//
+//            Volley.newRequestQueue(this@MainActivity).add(jsonObjectRequest)
+//        } else {
+//            mProgressBar?.dismiss()
+//            Toast.makeText(
+//                this@MainActivity,
+//                "Please Turn On Internet Connection",
+//                Toast.LENGTH_LONG
+//            ).show()
+//        }
+//    }
+//
+//
 
     private fun getToday() {
         val date = Calendar.getInstance().time
